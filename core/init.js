@@ -5,6 +5,7 @@ class InitManager {
     static init(app) {
         this.app = app;
         this.initLoadRouters();
+        this.loadHttpException();
         this.loadConfig();
     }
 
@@ -12,6 +13,11 @@ class InitManager {
         const configPath = path || '../config/config.js';
         const config = require(configPath);
         global.config = config;
+    }
+
+    static loadHttpException(){
+        const errors = require('./http-exception');
+        global.errors = errors;
     }
 
     static initLoadRouters() {

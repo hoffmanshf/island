@@ -8,7 +8,10 @@ const sequelize = new Sequelize(dbName, username, password, {
         underscore: true
     }
 });
-sequelize.sync();
+sequelize.sync({
+    // database tables will be dropped every time application launches
+    force: true
+});
 module.exports = {
     sequelize
 }

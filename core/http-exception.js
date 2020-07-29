@@ -16,7 +16,17 @@ class ParameterException extends HttpException {
     }
 }
 
+class Success extends HttpException {
+    constructor(message, errorCode) {
+        super();
+        this.message = message || 'ok';
+        this.errorCode = errorCode || 0;
+        this.status = 201;
+    }
+}
+
 module.exports = {
     HttpException,
-    ParameterException
+    ParameterException,
+    Success
 }

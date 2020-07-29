@@ -1,4 +1,5 @@
-const {BaseValidator, Rule} = require('../../core/base-validator');
+const {BaseValidator, Rule} = require('../../core/base-validator-v2');
+const {User} = require('../../app/models/user');
 
 class PositiveIntegerValidator extends BaseValidator {
     constructor() {
@@ -39,17 +40,17 @@ class RegisterValidator extends BaseValidator {
         }
     }
 
-    // async validateEmail(vals) {
-    //     const email = vals.body.email
-    //     const user = await User.findOne({
-    //         where: {
-    //             email: email
-    //         }
-    //     })
-    //     if (user) {
-    //         throw new Error(' email already exists')
-    //     }
-    // }
+    async validateEmail(vals) {
+        const email = vals.body.email
+        const user = await User.findOne({
+            where: {
+                email: email
+            }
+        })
+        if (user) {
+            throw new Error(' email already exists')
+        }
+    }
 
 }
 
