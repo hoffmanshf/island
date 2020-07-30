@@ -67,7 +67,7 @@ class BaseValidator {
                 errorMsgs.push(result.msg)
             }
         }
-        if (errorMsgs.length != 0) {
+        if (errorMsgs.length !== 0) {
             throw new ParameterException(errorMsgs)
         }
         ctx.v = this
@@ -75,7 +75,7 @@ class BaseValidator {
     }
 
     async _check(key, alias = {}) {
-        const isCustomFunc = typeof (this[key]) == 'function' ? true : false
+        const isCustomFunc = typeof (this[key]) == 'function'
         let result;
         if (isCustomFunc) {
             try {
@@ -180,7 +180,7 @@ class Rule {
     }
 
     validate(field) {
-        if (this.name == 'isOptional')
+        if (this.name === 'isOptional')
             return new RuleResult(true)
         if (!validator[this.name](field + '', ...this.params)) {
             return new RuleResult(false, this.msg || this.message || '参数错误')
@@ -202,7 +202,7 @@ class RuleField {
             if (allowEmpty) {
                 return new RuleFieldResult(true, '', defaultValue)
             } else {
-                return new RuleFieldResult(false, '字段是必填参数')
+                return new RuleFieldResult(false, ' is required')
             }
         }
 
@@ -221,13 +221,13 @@ class RuleField {
 
     _convert(value) {
         for (let rule of this.rules) {
-            if (rule.name == 'isInt') {
+            if (rule.name === 'isInt') {
                 return parseInt(value)
             }
-            if (rule.name == 'isFloat') {
+            if (rule.name === 'isFloat') {
                 return parseFloat(value)
             }
-            if (rule.name == 'isBoolean') {
+            if (rule.name === 'isBoolean') {
                 return value ? true : false
             }
         }
@@ -236,7 +236,7 @@ class RuleField {
 
     _allowEmpty() {
         for (let rule of this.rules) {
-            if (rule.name == 'isOptional') {
+            if (rule.name === 'isOptional') {
                 return true
             }
         }
@@ -246,7 +246,7 @@ class RuleField {
     _hasDefault() {
         for (let rule of this.rules) {
             const defaultValue = rule.params[0]
-            if (rule.name == 'isOptional') {
+            if (rule.name === 'isOptional') {
                 return defaultValue
             }
         }

@@ -201,7 +201,7 @@ class RuleField {
             if (allowEmpty) {
                 return new RuleFieldResult(true, '', defaultValue)
             } else {
-                return new RuleFieldResult(false, '字段是必填参数')
+                return new RuleFieldResult(false, ' is required')
             }
         }
 

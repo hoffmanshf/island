@@ -1,5 +1,6 @@
 const {BaseValidator, Rule} = require('../../core/base-validator-v2');
 const {User} = require('../../app/models/user');
+const {LoginType} = require('../lib/enum');
 
 class PositiveIntegerValidator extends BaseValidator {
     constructor() {
@@ -54,7 +55,37 @@ class RegisterValidator extends BaseValidator {
 
 }
 
+class TokenValidator extends BaseValidator {
+    constructor() {
+        super();
+        this.account = [
+            new Rule('isLength', ' length has to be 4 - 32', {
+                min: 4,
+                max: 32
+            })
+        ]
+        this.secret = [
+            new Rule('isOptional'),
+            new Rule('isLength', ' length has to be 6 - 128', {
+                min: 6,
+                max: 128
+            })
+        ]
+    }
+
+    validateLoginType(vals) {
+        if (!vals.body.type) {
+            throw new Error('type is required');
+        }
+        if (!LoginType.isValidType(vals.body.type)) {
+            throw new Error('invalid login type')
+        }
+    }
+
+}
+
 module.exports = {
     PositiveIntegerValidator,
-    RegisterValidator
+    RegisterValidator,
+    TokenValidator
 }

@@ -3,7 +3,22 @@ const bcrypt = require('bcryptjs');
 const {sequelize} = require('../../core/db');
 
 class User extends Model {
-
+    static async verifyEmailPassword(email, plainPassword) {
+        const user = await User.findOne({
+            where: {
+                email
+            }
+        })
+        if (!user) {
+            throw new global.errors.AuthFailed('account does not exist');
+        }
+        // user.password === plainPassword
+        const isValid = bcrypt.compareSync(plainPassword, user.password);
+        if (!isValid) {
+            throw new global.errors.AuthFailed('password is incorrect');
+        }
+        return user;
+    }
 }
 
 User.init({
