@@ -20,8 +20,8 @@ const sequelize = new Sequelize(dbName, username, password, {
   },
 });
 sequelize.sync({
-  // database tables will be dropped every time application launches
-  force: true,
+  // if true database tables will be dropped every time application launches
+  force: false,
 });
 module.exports = {
   sequelize,

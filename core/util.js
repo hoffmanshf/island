@@ -33,7 +33,7 @@ const findMembers = function (instance, { prefix, specifiedType, filter }) {
   return find(instance);
 };
 
-const generateToken = function (uid, scope) {
+const generateToken = (uid, scope) => {
   const { secretKey } = global.config.security;
   const { expiresIn } = global.config.security;
   const token = jwt.sign(
@@ -53,15 +53,3 @@ module.exports = {
   findMembers,
   generateToken,
 };
-
-// const generateToken = function (uid, scope) {
-//     const secretKey = global.config.security.secretKey
-//     const expiresIn = global.config.security.expiresIn
-//     const token = jwt.sign({
-//         uid,
-//         scope
-//     }, secretKey, {
-//         expiresIn: expiresIn
-//     })
-//     return token
-// }

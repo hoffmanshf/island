@@ -11,13 +11,12 @@ class InitManager {
 
   static loadConfig(path = '') {
     const configPath = path || '../config/config.js';
-    // eslint-disable-next-line global-require,import/no-dynamic-require
+    // eslint-disable-next-line import/no-dynamic-require
     const config = require(configPath);
     global.config = config;
   }
 
   static loadHttpException() {
-    // eslint-disable-next-line global-require
     const errors = require('./http-exception');
     global.errors = errors;
   }
