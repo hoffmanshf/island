@@ -42,7 +42,7 @@ class RegisterValidator extends BaseValidator {
   }
 
   async validateEmail(vals) {
-    const {email} = vals.body;
+    const { email } = vals.body;
     const user = await User.findOne({
       where: {
         email,
@@ -82,8 +82,20 @@ class TokenValidator extends BaseValidator {
   }
 }
 
+class NotEmptyValidator extends BaseValidator {
+  constructor() {
+    super();
+    this.token = [
+      new Rule('isLength', 'can not be empty', {
+        min: 1,
+      }),
+    ];
+  }
+}
+
 module.exports = {
   PositiveIntegerValidator,
   RegisterValidator,
   TokenValidator,
+  NotEmptyValidator,
 };
