@@ -17,6 +17,13 @@ const sequelize = new Sequelize(dbName, username, password, {
     createdAt: 'created_at',
     updatedAt: 'updated_at',
     underscored: true,
+    scopes: {
+      bh: {
+        attributes: {
+          exclude: ['updated_at', 'created_at'],
+        },
+      },
+    },
   },
 });
 sequelize.sync({

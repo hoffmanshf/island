@@ -6,37 +6,36 @@ class Art {
     this.type = type;
   }
 
-  static async getData(artId, type, useScope = true) {
+  static async getData(artId, type) {
     let art = null;
     const finder = {
       where: {
         id: artId,
       },
     };
-    const scope = useScope ? 'bh' : null;
     switch (type) {
-      // case 100:
-      //   art = await Movie.scope(scope).findOne(finder);
-      //   break;
-      // case 200:
-      //   art = await Music.scope(scope).findOne(finder);
-      //   break;
-      // case 300:
-      //   art = await Sentence.scope(scope).findOne(finder);
-      //   break;
-      // default:
-      //   break;
       case 100:
-        art = await Movie.findOne(finder);
+        art = await Movie.scope('bh').findOne(finder);
         break;
       case 200:
-        art = await Music.findOne(finder);
+        art = await Music.scope('bh').findOne(finder);
         break;
       case 300:
-        art = await Sentence.findOne(finder);
+        art = await Sentence.scope('bh').findOne(finder);
         break;
       default:
         break;
+      // case 100:
+      //   art = await Movie.findOne(finder);
+      //   break;
+      // case 200:
+      //   art = await Music.findOne(finder);
+      //   break;
+      // case 300:
+      //   art = await Sentence.findOne(finder);
+      //   break;
+      // default:
+      //   break;
     }
     // if (art && art.image) {
     //     let imgUrl = art.dataValues.image

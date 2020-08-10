@@ -26,7 +26,7 @@ class Favor extends Model {
           transaction: t,
         }
       );
-      const art = await Art.getData(artId, type, false);
+      const art = await Art.getData(artId, type);
       // Increment the value of one or more columns.
       // This is done in the database, which means it does not use the values currently stored on the Instance.
       await art.increment('fav_nums', {
@@ -54,7 +54,7 @@ class Favor extends Model {
         force: true,
         transaction: t,
       });
-      const art = await Art.getData(artId, type, false);
+      const art = await Art.getData(artId, type);
       await art.decrement('fav_nums', {
         by: 1,
         transaction: t,
