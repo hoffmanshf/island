@@ -16,7 +16,7 @@ const sequelize = new Sequelize(dbName, username, password, {
     timestamp: true,
     createdAt: 'created_at',
     updatedAt: 'updated_at',
-    underscore: true,
+    underscored: true,
   },
 });
 sequelize.sync({

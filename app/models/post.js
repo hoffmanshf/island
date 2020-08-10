@@ -1,7 +1,7 @@
 const { Sequelize, Model } = require('sequelize');
 const { sequelize } = require('../../core/db');
 
-const classicFields = {
+const postFields = {
   image: {
     type: Sequelize.STRING,
   },
@@ -17,14 +17,14 @@ const classicFields = {
 
 class Movie extends Model {}
 
-Movie.init(classicFields, {
+Movie.init(postFields, {
   sequelize,
   tableName: 'movie',
 });
 
 class Sentence extends Model {}
 
-Sentence.init(classicFields, {
+Sentence.init(postFields, {
   sequelize,
   tableName: 'sentence',
 });
@@ -35,7 +35,7 @@ const musicFields = Object.assign(
   {
     url: Sequelize.STRING,
   },
-  classicFields
+  postFields
 );
 
 Music.init(musicFields, {
