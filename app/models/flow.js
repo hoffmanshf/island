@@ -6,7 +6,7 @@ class Flow extends Model {}
 Flow.init(
   {
     index: Sequelize.INTEGER,
-    art_id: Sequelize.INTEGER,
+    artId: Sequelize.INTEGER,
     type: Sequelize.INTEGER,
   },
   {
