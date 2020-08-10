@@ -11,7 +11,7 @@ const sequelize = new Sequelize(dbName, username, password, {
   dialect: 'mysql',
   host,
   port,
-  logging: false,
+  logging: true,
   define: {
     timestamp: true,
     createdAt: 'created_at',

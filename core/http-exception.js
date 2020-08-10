@@ -52,6 +52,24 @@ class Forbidden extends HttpException {
   }
 }
 
+class LikeError extends HttpException {
+  constructor(message, errorCode) {
+    super();
+    this.message = 'you have liked this post';
+    this.errorCode = 60001;
+    this.status = 400;
+  }
+}
+
+class DislikeError extends HttpException {
+  constructor(message, errorCode) {
+    super();
+    this.message = 'you have disliked this post';
+    this.errorCode = 60002;
+    this.status = 400;
+  }
+}
+
 module.exports = {
   HttpException,
   ParameterException,
@@ -59,4 +77,6 @@ module.exports = {
   NotFound,
   AuthFailed,
   Forbidden,
+  LikeError,
+  DislikeError,
 };

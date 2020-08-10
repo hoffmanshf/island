@@ -93,9 +93,31 @@ class NotEmptyValidator extends BaseValidator {
   }
 }
 
+const checkType = (vals) => {
+  // let type = vals.body.type || vals.path.type;
+  if (!vals.body.type) {
+    throw new Error('type does not exist');
+  }
+  // type = parseInt(type);
+
+  if (!LoginType.isValidType(vals.body.type)) {
+    throw new Error('type is invalid');
+  }
+};
+
+class LikeValidator extends PositiveIntegerValidator {
+  constructor() {
+    super();
+    this.validateType = checkType;
+    // const checker = new Checker(ArtType)
+    // this.validateType = checker.check.bind(checker)
+  }
+}
+
 module.exports = {
   PositiveIntegerValidator,
   RegisterValidator,
   TokenValidator,
   NotEmptyValidator,
+  LikeValidator,
 };
