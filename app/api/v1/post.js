@@ -103,9 +103,9 @@ router.get('/:type/:id/favor', new Auth().m, async (ctx) => {
   };
 });
 
-// router.get('/favor', new Auth().m, async (ctx) => {
-//   const uid = ctx.auth.uid;
-//   ctx.body = await Favor.getMyClassicFavors(uid);
-// });
+router.get('/favor', new Auth().m, async (ctx) => {
+  const { uid } = ctx.auth;
+  ctx.body = await Favor.getFavoritePosts(uid);
+});
 
 module.exports = router;

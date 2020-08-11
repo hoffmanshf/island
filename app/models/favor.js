@@ -72,6 +72,35 @@ class Favor extends Model {
     });
     return !!favor;
   }
+
+  static async getFavoritePosts(uid) {
+    const arts = await Favor.findAll({
+      where: {
+        uid,
+        type: {
+          // type does not equal to 400
+          [Op.not]: 400,
+          // [] converts field to char
+          // in ES5, all keys are chars
+          // ES6 introduces key type Symbol
+        },
+      },
+    });
+    if (!arts) {
+      throw new global.errors.NotFound();
+    }
+
+    // Notice: avoid call database in for loop
+    // for (let art of arts) {
+    //   const res = await Art.getData(art.artId, art.type);
+    // }
+
+    // solution: use SQL IN statement to query for all ids in [ids]
+
+    // use list of art id and type to get corresponding arts
+    const artList = await Art.getList(arts);
+    return artList;
+  }
 }
 
 Favor.init(
