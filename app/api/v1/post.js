@@ -1,6 +1,9 @@
 const Router = require('koa-router');
 const { Favor } = require('../../models/favor');
-const { PositiveIntegerValidator } = require('../../validators/validator');
+const {
+  PositiveIntegerValidator,
+  PostValidator,
+} = require('../../validators/validator');
 const { Auth } = require('../../../middlewares/auth');
 const { Flow } = require('../../models/flow');
 const { Art } = require('../../models/art');
@@ -70,5 +73,39 @@ router.get('/:index/previous', new Auth().m, async (ctx) => {
   art.setDataValue('like_status', likePrevious);
   ctx.body = art;
 });
+
+// router.get('/:type/:id', new Auth().m, async (ctx) => {
+//   const v = await new PostValidator().validate(ctx);
+//   const id = v.get('path.id');
+//   const type = parseInt(v.get('path.type'));
+//
+//   const artDetail = await new Art(id, type).getDetail(ctx.auth.uid);
+//
+//   artDetail.art.setDataValue('like_status', artDetail.like_status);
+//   ctx.body = artDetail.art;
+// });
+
+router.get('/:type/:id/favor', new Auth().m, async (ctx) => {
+  const v = await new PostValidator().validate(ctx);
+  const id = v.get('path.id');
+  const type = parseInt(v.get('path.type'), 10);
+
+  const art = await Art.getData(id, type);
+  if (!art) {
+    throw new global.errors.NotFound();
+  }
+
+  const likeStatus = await Favor.userLikeIt(id, type, ctx.auth.uid);
+
+  ctx.body = {
+    fav_nums: art.favNums,
+    like_status: likeStatus,
+  };
+});
+
+// router.get('/favor', new Auth().m, async (ctx) => {
+//   const uid = ctx.auth.uid;
+//   ctx.body = await Favor.getMyClassicFavors(uid);
+// });
 
 module.exports = router;

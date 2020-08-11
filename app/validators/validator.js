@@ -1,6 +1,6 @@
 const { BaseValidator, Rule } = require('../../core/base-validator-v2');
 const { User } = require('../models/user');
-const { LoginType } = require('../lib/enum');
+const { LoginType, ArtType } = require('../lib/enum');
 
 class PositiveIntegerValidator extends BaseValidator {
   constructor() {
@@ -94,13 +94,13 @@ class NotEmptyValidator extends BaseValidator {
 }
 
 const checkType = (vals) => {
-  // let type = vals.body.type || vals.path.type;
-  if (!vals.body.type) {
+  let type = vals.body.type || vals.path.type;
+  if (!type) {
     throw new Error('type does not exist');
   }
-  // type = parseInt(type);
+  type = parseInt(type, 10);
 
-  if (!LoginType.isValidType(vals.body.type)) {
+  if (!ArtType.isValidType(type)) {
     throw new Error('type is invalid');
   }
 };
@@ -114,10 +114,13 @@ class LikeValidator extends PositiveIntegerValidator {
   }
 }
 
+class PostValidator extends LikeValidator {}
+
 module.exports = {
   PositiveIntegerValidator,
   RegisterValidator,
   TokenValidator,
   NotEmptyValidator,
   LikeValidator,
+  PostValidator,
 };
