@@ -74,32 +74,39 @@ router.get('/:index/previous', new Auth().m, async (ctx) => {
   ctx.body = art;
 });
 
-// router.get('/:type/:id', new Auth().m, async (ctx) => {
-//   const v = await new PostValidator().validate(ctx);
-//   const id = v.get('path.id');
-//   const type = parseInt(v.get('path.type'));
-//
-//   const artDetail = await new Art(id, type).getDetail(ctx.auth.uid);
-//
-//   artDetail.art.setDataValue('like_status', artDetail.like_status);
-//   ctx.body = artDetail.art;
-// });
+router.get('/:type/:id', new Auth().m, async (ctx) => {
+  const v = await new PostValidator().validate(ctx);
+  const id = v.get('path.id');
+  const type = parseInt(v.get('path.type'), 10);
+  // why do we pass field in constructor?
+  // to avoid pass too many fields in each function
+  const artDetail = await new Art(id, type).getDetail(ctx.auth.uid);
+
+  artDetail.art.setDataValue('like_status', artDetail.likeStatus);
+  ctx.body = artDetail.art;
+});
 
 router.get('/:type/:id/favor', new Auth().m, async (ctx) => {
   const v = await new PostValidator().validate(ctx);
   const id = v.get('path.id');
   const type = parseInt(v.get('path.type'), 10);
 
-  const art = await Art.getData(id, type);
-  if (!art) {
-    throw new global.errors.NotFound();
-  }
-
-  const likeStatus = await Favor.userLikeIt(id, type, ctx.auth.uid);
+  // const art = await Art.getData(id, type);
+  // if (!art) {
+  //   throw new global.errors.NotFound();
+  // }
+  //
+  // const likeStatus = await Favor.userLikeIt(id, type, ctx.auth.uid);
+  //
+  // ctx.body = {
+  //   fav_nums: art.favNums,
+  //   like_status: likeStatus,
+  // };
+  const artDetail = await new Art(id, type).getDetail(ctx.auth.uid);
 
   ctx.body = {
-    fav_nums: art.favNums,
-    like_status: likeStatus,
+    fav_nums: artDetail.art.favNums,
+    like_status: artDetail.likeStatus,
   };
 });
 

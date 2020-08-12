@@ -1,11 +1,31 @@
 const { Op } = require('sequelize');
 const { flatten } = require('lodash');
 const { Movie, Sentence, Music } = require('./post');
+// cyclic dependency
+// const { Favor } = require('./favor');
 
 class Art {
   constructor(artId, type) {
     this.artId = artId;
     this.type = type;
+  }
+
+  async getDetail(uid) {
+    // Favor has to be imported here to avoid cyclic dependency
+    const { Favor } = require('./favor');
+    const art = await Art.getData(this.artId, this.type);
+    if (!art) {
+      throw new global.errors.NotFound();
+    }
+
+    const like = await Favor.userLikeIt(this.artId, this.type, uid);
+    // art.setDataValue('like_status',like)
+
+    // return as object
+    return {
+      art,
+      likeStatus: like,
+    };
   }
 
   static async getData(artId, type) {
